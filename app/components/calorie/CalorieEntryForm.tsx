@@ -136,40 +136,47 @@ export default function CalorieEntryForm({
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-700">
+        <label className="mb-2 block text-sm font-medium text-foreground">
           カテゴリー
         </label>
-        <select
-          value={categoryId || ""}
-          onChange={(e) =>
-            setCategoryId(e.target.value || undefined)
-          }
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">カテゴリーを選択</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            value={categoryId || ""}
+            onChange={(e) =>
+              setCategoryId(e.target.value || undefined)
+            }
+            className="w-full rounded-lg border border-input bg-background px-4 py-2 text-base text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 appearance-none"
+          >
+            <option value="">カテゴリーを選択</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground">
+            <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
+              <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
+            </svg>
+          </div>
+        </div>
       </div>
 
       <PhotoUpload value={photo} onChange={setPhoto} />
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-700">
+        <label className="mb-2 block text-sm font-medium text-foreground">
           メモ
         </label>
         <textarea
           value={memo}
           onChange={(e) => setMemo(e.target.value)}
           rows={3}
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-lg border border-input bg-background px-4 py-2 text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         />
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 pt-2">
         <Button type="submit" variant="primary" className="flex-1">
           {initialEntry ? "更新" : "保存"}
         </Button>
@@ -180,4 +187,3 @@ export default function CalorieEntryForm({
     </form>
   );
 }
-

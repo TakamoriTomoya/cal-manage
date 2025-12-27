@@ -1,7 +1,8 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Button from "./Button";
+import { createPortal } from "react-dom";
 
 interface ModalProps {
   isOpen: boolean;
@@ -18,6 +19,13 @@ export default function Modal({
   children,
   showCloseButton = true,
 }: ModalProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
   // ESCキーで閉じる
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -38,30 +46,45 @@ export default function Modal({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!mounted || !isOpen) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
-      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
     >
+      {/* Backdrop with blur */}
+      <div 
+        className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity animate-in fade-in duration-300"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Modal Content */}
       <div
-        className="relative w-full max-w-md rounded-lg bg-white p-6 shadow-xl"
+        className="relative w-full max-w-lg transform overflow-hidden rounded-3xl bg-card shadow-2xl ring-1 ring-black/5 transition-all animate-in zoom-in-95 slide-in-from-bottom-2 duration-300 flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
       >
         {title && (
-          <h2 className="mb-4 text-xl font-semibold text-gray-900">{title}</h2>
+          <div className="flex-shrink-0 border-b border-border/50 px-6 py-4 bg-secondary/20">
+            <h2 className="text-lg font-bold tracking-tight text-foreground">{title}</h2>
+          </div>
         )}
-        <div className="text-gray-700">{children}</div>
+        
+        <div className="flex-1 overflow-y-auto px-6 py-6 text-foreground">
+          {children}
+        </div>
+        
         {showCloseButton && (
-          <div className="mt-6 flex justify-end">
-            <Button variant="secondary" onClick={onClose}>
+          <div className="flex-shrink-0 flex justify-end px-6 py-4 bg-secondary/20 border-t border-border/50">
+            <Button variant="secondary" onClick={onClose} size="sm">
               閉じる
             </Button>
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
-

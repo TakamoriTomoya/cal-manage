@@ -78,40 +78,51 @@ export default function DayPage() {
   }
 
   return (
-    <div className="w-full">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="w-full max-w-3xl mx-auto space-y-10 animate-in slide-in-from-bottom-4 duration-500">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground">
             {formatDate(date)}
           </h1>
+          <p className="mt-2 text-base text-muted-foreground">
+            日々のカロリー詳細
+          </p>
         </div>
-        <Button
-          variant="primary"
-          onClick={() => {
-            setEditingEntry(undefined);
-            setShowAddForm(true);
-          }}
-        >
-          カロリーを追加
-        </Button>
+        <div className="flex-shrink-0">
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={() => {
+              setEditingEntry(undefined);
+              setShowAddForm(true);
+            }}
+            className="shadow-xl shadow-primary/20"
+          >
+            記録を追加
+          </Button>
+        </div>
       </div>
 
-      <div className="mb-6">
-        <CalorieSummary
-          totalCalories={summary.totalCalories}
-          entryCount={summary.entryCount}
-          date={date}
-          period="day"
-        />
-      </div>
+      <CalorieSummary
+        totalCalories={summary.totalCalories}
+        entryCount={summary.entryCount}
+        date={date}
+        period="day"
+      />
 
-      <div className="rounded-lg bg-white p-6 shadow-sm">
-        <CalorieEntryList
-          entries={entries}
-          date={date}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
+      <div className="space-y-6">
+        <h2 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
+          <span className="h-6 w-1 rounded-full bg-primary block"></span>
+          記録一覧
+        </h2>
+        <div className="bg-card/50 backdrop-blur-sm rounded-3xl p-6 md:p-8 border border-border/50 shadow-sm">
+          <CalorieEntryList
+            entries={entries}
+            date={date}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        </div>
       </div>
 
       <Modal
@@ -120,7 +131,7 @@ export default function DayPage() {
           setShowAddForm(false);
           setEditingEntry(undefined);
         }}
-        title={editingEntry ? "カロリーを編集" : "カロリーを追加"}
+        title={editingEntry ? "記録を編集" : "記録を追加"}
         showCloseButton={false}
       >
         <CalorieEntryForm
@@ -136,4 +147,3 @@ export default function DayPage() {
     </div>
   );
 }
-

@@ -31,14 +31,14 @@ export default function CalendarHeader({
   ];
 
   return (
-    <div className="mb-4 flex items-center justify-between">
+    <div className="mb-8 flex items-center justify-between px-2">
       <button
         onClick={onPreviousMonth}
-        className="rounded-lg p-2 hover:bg-gray-100"
+        className="group flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-white text-muted-foreground shadow-sm transition-all hover:border-primary hover:text-primary hover:shadow-md active:scale-95"
         aria-label="前月"
       >
         <svg
-          className="h-5 w-5"
+          className="h-5 w-5 transition-transform group-hover:-translate-x-0.5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -52,17 +52,21 @@ export default function CalendarHeader({
         </svg>
       </button>
 
-      <h2 className="text-xl font-semibold text-gray-900">
-        {year}年{monthNames[month - 1]}
-      </h2>
+      <div className="flex flex-col items-center">
+        <h2 className="text-2xl font-bold tracking-tight text-foreground">
+          <span className="text-3xl mr-2 tabular-nums">{year}</span>
+          <span className="text-muted-foreground font-light">年</span>
+          <span className="text-3xl ml-2 tabular-nums text-primary">{monthNames[month - 1]}</span>
+        </h2>
+      </div>
 
       <button
         onClick={onNextMonth}
-        className="rounded-lg p-2 hover:bg-gray-100"
+        className="group flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-white text-muted-foreground shadow-sm transition-all hover:border-primary hover:text-primary hover:shadow-md active:scale-95"
         aria-label="次月"
       >
         <svg
-          className="h-5 w-5"
+          className="h-5 w-5 transition-transform group-hover:translate-x-0.5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -78,4 +82,3 @@ export default function CalendarHeader({
     </div>
   );
 }
-

@@ -58,18 +58,26 @@ export default function SavedEntryList({
 
   if (entries.length === 0) {
     return (
-      <div className="rounded-lg border border-gray-200 bg-gray-50 p-8 text-center">
-        <p className="text-gray-500">
+      <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border/60 bg-secondary/10 p-16 text-center transition-colors hover:bg-secondary/20 col-span-full">
+        <div className="rounded-full bg-background p-4 shadow-sm">
+          <svg className="h-8 w-8 text-muted-foreground/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+          </svg>
+        </div>
+        <p className="mt-4 text-base font-medium text-foreground/70">
           {filterCategoryId
-            ? "このカテゴリーの登録済みカロリーはありません"
-            : "登録済みカロリーがありません"}
+            ? "このカテゴリーの登録済みアイテムはありません"
+            : "登録済みアイテムがありません"}
+        </p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          よく使う食品を登録して、入力を効率化しましょう
         </p>
       </div>
     );
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 auto-rows-fr">
       {entries.map((entry) => (
         <SavedEntryCard
           key={entry.id}
@@ -82,4 +90,3 @@ export default function SavedEntryList({
     </div>
   );
 }
-

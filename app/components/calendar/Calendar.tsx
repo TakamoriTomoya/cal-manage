@@ -145,22 +145,30 @@ export default function Calendar({
         onNextMonth={handleNextMonth}
       />
 
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-4 mb-2">
         {/* 曜日ヘッダー */}
-        {weekDays.map((day) => (
+        {weekDays.map((day, index) => (
           <div
             key={day}
-            className="text-center text-sm font-medium text-gray-500"
+            className={`text-center text-xs font-bold tracking-wider uppercase ${
+              index === 0 ? "text-red-500" : index === 6 ? "text-blue-500" : "text-muted-foreground"
+            }`}
           >
             {day}
           </div>
         ))}
+      </div>
 
+      <div className="grid grid-cols-7 gap-2 sm:gap-4">
         {/* カレンダーの日付 */}
         {calendarDays.map(({ date, isCurrentMonth }) => {
           const calories = calculateDailyTotal(entries, date);
           const isToday = date === today;
           const isSelected = selectedDate === date;
+
+          if (!isCurrentMonth) {
+            return <div key={date} className="aspect-square" />; // 空白セルにしてスッキリさせる
+          }
 
           return (
             <CalendarDay
@@ -177,4 +185,3 @@ export default function Calendar({
     </div>
   );
 }
-

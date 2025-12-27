@@ -39,20 +39,27 @@ export default function AddPage() {
   };
 
   return (
-    <div className="w-full">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">
-          {editingEntry ? "カロリーを編集" : "カロリーを追加"}
-        </h1>
+    <div className="w-full max-w-2xl mx-auto space-y-8 animate-in slide-in-from-bottom-4 duration-500">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
+            {editingEntry ? "記録を編集" : "新しい記録"}
+          </h1>
+          <p className="mt-2 text-base text-muted-foreground">
+            今日の食事や運動を記録しましょう
+          </p>
+        </div>
         <Button
           variant="secondary"
+          size="sm"
           onClick={() => setShowSavedEntries(true)}
+          className="shadow-sm"
         >
-          登録済みから選択
+          登録済みアイテムから選択
         </Button>
       </div>
 
-      <div className="rounded-lg bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-border/60 bg-card p-8 shadow-xl shadow-black/5 ring-1 ring-black/5">
         <CalorieEntryForm
           initialEntry={editingEntry}
           onSave={handleSave}
@@ -63,11 +70,10 @@ export default function AddPage() {
       <Modal
         isOpen={showSavedEntries}
         onClose={() => setShowSavedEntries(false)}
-        title="登録済みカロリーから選択"
+        title="登録済みアイテムから選択"
       >
         <SavedEntryList onSelect={handleSelectSavedEntry} />
       </Modal>
     </div>
   );
 }
-

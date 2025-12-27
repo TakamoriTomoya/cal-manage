@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Calendar from "./components/calendar/Calendar";
+import CalorieChart from "./components/calorie/CalorieChart";
 import { getToday } from "@/lib/date";
+import { getCalorieEntries } from "@/lib/storage";
+import type { CalorieEntry } from "@/types";
 
 export default function Home() {
   const today = getToday();
@@ -14,6 +17,28 @@ export default function Home() {
     const [, m] = today.split("-").map(Number);
     return m;
   });
+  const [entries, setEntries] = useState<CalorieEntry[]>([]);
+
+  useEffect(() => {
+    const loadEntries = () => {
+      const storedEntries = getCalorieEntries();
+      setEntries(storedEntries);
+    };
+
+    loadEntries();
+
+    const handleStorageChange = () => {
+      loadEntries();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("calorieEntriesUpdated", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("calorieEntriesUpdated", handleStorageChange);
+    };
+  }, []);
 
   const handleMonthChange = (newYear: number, newMonth: number) => {
     setYear(newYear);
@@ -21,11 +46,23 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full">
-      <h1 className="mb-6 text-3xl font-bold text-gray-900">
-        カロリー管理
-      </h1>
-      <div className="rounded-lg bg-white p-6 shadow-sm">
+    <div className="w-full max-w-4xl mx-auto space-y-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground">
+            ダッシュボード
+          </h1>
+          <p className="mt-2 text-base text-muted-foreground">
+            日々の摂取カロリーをスマートに管理しましょう
+          </p>
+        </div>
+      </div>
+
+      {/* グラフセクション */}
+      <CalorieChart entries={entries} year={year} month={month} />
+
+      {/* カレンダーセクション */}
+      <div className="rounded-3xl border border-border/60 bg-white p-8 shadow-xl shadow-black/5 ring-1 ring-black/5">
         <Calendar
           year={year}
           month={month}

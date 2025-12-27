@@ -223,11 +223,21 @@ export function updateSavedCalorieEntry(
 function createDefaultCategories(): Category[] {
   const now = getCurrentISOString();
   const defaults = [
-    { name: "朝食", color: "#FFB84D" },
-    { name: "昼食", color: "#4DA6FF" },
-    { name: "夕食", color: "#FF6B6B" },
-    { name: "間食", color: "#95E1D3" },
-    { name: "飲み物", color: "#A8E6CF" },
+    { name: "米類", color: "#F59E0B" }, // オレンジ
+    { name: "パン類", color: "#EAB308" }, // イエロー
+    { name: "麺類", color: "#3B82F6" }, // ブルー
+    { name: "肉類", color: "#EF4444" }, // レッド
+    { name: "魚介類", color: "#06B6D4" }, // シアン
+    { name: "野菜類", color: "#10B981" }, // グリーン
+    { name: "果物類", color: "#F97316" }, // オレンジレッド
+    { name: "乳製品", color: "#8B5CF6" }, // パープル
+    { name: "豆類・大豆製品", color: "#84CC16" }, // ライムグリーン
+    { name: "卵類", color: "#FCD34D" }, // イエロー
+    { name: "お菓子", color: "#EC4899" }, // ピンク
+    { name: "スイーツ", color: "#F472B6" }, // ピンク
+    { name: "飲み物", color: "#14B8A6" }, // ティール
+    { name: "調味料・スパイス", color: "#A78BFA" }, // バイオレット
+    { name: "その他", color: "#6B7280" }, // グレー
   ];
 
   return defaults.map((cat, index) => ({
@@ -239,6 +249,14 @@ function createDefaultCategories(): Category[] {
 }
 
 /**
+ * 古いカテゴリーかどうかを判定（朝食、昼食、夕食など）
+ */
+function isOldCategoryFormat(categories: Category[]): boolean {
+  const oldCategoryNames = ["朝食", "昼食", "夕食", "間食", "飲み物"];
+  return categories.some((cat) => oldCategoryNames.includes(cat.name));
+}
+
+/**
  * カテゴリー一覧を取得（初回起動時はデフォルトカテゴリーを設定）
  */
 export function getCategories(): Category[] {
@@ -247,8 +265,8 @@ export function getCategories(): Category[] {
     []
   );
 
-  // 初回起動時はデフォルトカテゴリーを設定
-  if (categories.length === 0) {
+  // 初回起動時、または古いカテゴリーフォーマットの場合はデフォルトカテゴリーを設定
+  if (categories.length === 0 || isOldCategoryFormat(categories)) {
     const defaultCategories = createDefaultCategories();
     setStorageItem(STORAGE_KEYS.CATEGORIES, defaultCategories);
     return defaultCategories;

@@ -121,11 +121,16 @@ Category[]
 
 ```typescript
 const DEFAULT_CATEGORIES: Omit<Category, "id" | "createdAt" | "updatedAt">[] = [
-  { name: "朝食", color: "#FFB84D" },
-  { name: "昼食", color: "#4DA6FF" },
-  { name: "夕食", color: "#FF6B6B" },
-  { name: "間食", color: "#95E1D3" },
-  { name: "飲み物", color: "#A8E6CF" },
+  { name: "ご飯・パン", color: "#FFB84D" },
+  { name: "麺類", color: "#4DA6FF" },
+  { name: "肉類", color: "#FF6B6B" },
+  { name: "魚介類", color: "#95E1D3" },
+  { name: "野菜", color: "#A8E6CF" },
+  { name: "果物", color: "#FFD93D" },
+  { name: "乳製品", color: "#C9E4DE" },
+  { name: "お菓子・スイーツ", color: "#F4A261" },
+  { name: "飲み物", color: "#E76F51" },
+  { name: "その他", color: "#6C757D" },
 ];
 ```
 

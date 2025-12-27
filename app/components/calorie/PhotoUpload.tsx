@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import Button from "../ui/Button";
 
 interface PhotoUploadProps {
   value?: string; // Base64データ
@@ -56,13 +57,13 @@ export default function PhotoUpload({
 
   return (
     <div className="w-full">
-      <label className="mb-2 block text-sm font-medium text-gray-700">
+      <label className="mb-2 block text-sm font-medium text-foreground">
         写真
       </label>
       <div className="space-y-2">
         {value ? (
-          <div className="relative">
-            <div className="relative h-48 w-full overflow-hidden rounded-lg border border-gray-300">
+          <div className="relative group">
+            <div className="relative h-48 w-full overflow-hidden rounded-xl border border-border bg-muted">
               <Image
                 src={value}
                 alt="アップロードされた写真"
@@ -70,22 +71,26 @@ export default function PhotoUpload({
                 className="object-cover"
               />
             </div>
-            <button
-              type="button"
-              onClick={handleRemove}
-              className="mt-2 text-sm text-red-600 hover:text-red-700"
-            >
-              写真を削除
-            </button>
+            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <Button
+                type="button"
+                variant="danger"
+                size="sm"
+                onClick={handleRemove}
+                className="shadow-lg"
+              >
+                削除
+              </Button>
+            </div>
           </div>
         ) : (
           <div
-            className="flex h-32 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:border-blue-400 hover:bg-blue-50"
+            className="flex h-32 cursor-pointer items-center justify-center rounded-xl border-2 border-dashed border-input bg-secondary/30 transition-colors hover:border-primary/50 hover:bg-primary/5"
             onClick={() => fileInputRef.current?.click()}
           >
             <div className="text-center">
               <svg
-                className="mx-auto h-12 w-12 text-gray-400"
+                className="mx-auto h-10 w-10 text-muted-foreground"
                 stroke="currentColor"
                 fill="none"
                 viewBox="0 0 48 48"
@@ -97,10 +102,10 @@ export default function PhotoUpload({
                   strokeLinejoin="round"
                 />
               </svg>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-2 text-sm font-medium text-foreground">
                 クリックして写真を選択
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground">
                 またはドラッグ&ドロップ
               </p>
             </div>
@@ -113,9 +118,8 @@ export default function PhotoUpload({
           onChange={handleFileSelect}
           className="hidden"
         />
-        {error && <p className="text-sm text-red-500">{error}</p>}
+        {error && <p className="text-sm font-medium text-red-500">{error}</p>}
       </div>
     </div>
   );
 }
-

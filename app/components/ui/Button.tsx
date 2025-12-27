@@ -4,39 +4,48 @@ import { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: "primary" | "secondary" | "danger";
-  size?: "sm" | "md" | "lg";
+  variant?: "primary" | "secondary" | "danger" | "ghost" | "outline";
+  size?: "sm" | "md" | "lg" | "icon";
+  fullWidth?: boolean;
 }
 
 export default function Button({
   children,
   variant = "primary",
   size = "md",
+  fullWidth = false,
   className = "",
   disabled,
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+    "inline-flex items-center justify-center rounded-xl font-semibold tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none ring-offset-background active:scale-[0.98]";
 
   const variantStyles = {
     primary:
-      "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
+      "bg-primary text-primary-foreground hover:bg-primary/90 border border-transparent", // shadow-md hover:shadow-lg を削除
     secondary:
-      "bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500",
+      "bg-white text-secondary-foreground border border-border/60 hover:bg-secondary/50 hover:border-border shadow-sm",
     danger:
-      "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
+      "bg-red-50 text-red-600 border border-red-100 hover:bg-red-100 hover:border-red-200 shadow-sm",
+    ghost:
+      "hover:bg-secondary/80 text-foreground/80 hover:text-foreground",
+    outline:
+      "border-2 border-primary text-primary bg-transparent hover:bg-primary/5",
   };
 
   const sizeStyles = {
-    sm: "px-3 py-1.5 text-sm",
-    md: "px-4 py-2 text-base",
-    lg: "px-6 py-3 text-lg",
+    sm: "h-9 px-4 text-xs",
+    md: "h-11 px-6 text-sm",
+    lg: "h-14 px-8 text-base",
+    icon: "h-11 w-11",
   };
+
+  const widthStyles = fullWidth ? "w-full" : "";
 
   return (
     <button
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
+      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${widthStyles} ${className}`}
       disabled={disabled}
       {...props}
     >
@@ -44,4 +53,3 @@ export default function Button({
     </button>
   );
 }
-
