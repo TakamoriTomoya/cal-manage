@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# カロリー管理アプリ
 
-## Getting Started
+日々のカロリーを管理するためのWebアプリケーションです。
 
-First, run the development server:
+## 機能
+
+- 📸 **写真付きカロリー登録**: 写真、タイトル、カロリーを入力して記録
+- 📅 **カレンダー表示**: 月単位でカロリーを確認
+- 📊 **日別・月別集計**: その日の摂取カロリーを自動計算
+- 🔄 **登録済みカロリーの再利用**: よく食べるものを登録して簡単に追加
+- 🏷️ **カテゴリー管理**: 朝食、昼食、夕食などで分類
+
+## 技術スタック
+
+- **Next.js 16.1.1** (App Router)
+- **React 19.2.3**
+- **TypeScript**
+- **Tailwind CSS 4**
+- **ローカルストレージ** (データ保存)
+
+## セットアップ
 
 ```bash
+# 依存関係のインストール
+npm install
+
+# 開発サーバーの起動
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ブラウザで [http://localhost:3000](http://localhost:3000) を開いてください。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## プロジェクト構造
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+cal-manage/
+├── app/                    # Next.js App Router
+│   ├── components/         # Reactコンポーネント
+│   ├── add/               # カロリー追加ページ
+│   ├── day/[date]/        # 日別詳細ページ
+│   └── saved/             # 登録済みカロリー一覧
+├── lib/                   # ユーティリティ関数
+├── types/                 # TypeScript型定義
+└── docs/                  # ドキュメント
+```
 
-## Learn More
+## ドキュメント
 
-To learn more about Next.js, take a look at the following resources:
+詳細なドキュメントは `docs/` ディレクトリを参照してください。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [要件定義書](./docs/requirements.md)
+- [データ構造定義書](./docs/data-structure.md)
+- [コンポーネント設計書](./docs/component-design.md)
+- [Next.js App Router ベストプラクティス](./docs/nextjs-app-router-best-practices.md)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ライセンス
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
